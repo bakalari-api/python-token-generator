@@ -9,3 +9,5 @@ Script chce tři argumenty - doménu serveru Bakalářů, uživatelské jméno, 
 ```sh
 ./mktoken.py bakalari.gjp-me.cz jannovak honzovosilnyheslo
 ```
+
+Skript vždy vygeneruje token ke dnešnímu datu.
