@@ -16,7 +16,8 @@ def credentials(domain, user):
         'res': xml[0].text,
         'typ': xml[1].text,
         'ikod': xml[2].text,
-        'salt': xml[3].text
+        'salt': xml[3].text,
+        'name': user
     }
 
 creds = credentials(sys.argv[1], sys.argv[2])
@@ -25,12 +26,13 @@ pwd = sys.argv[3]
 ikod = creds['ikod']
 salt = creds['salt']
 typ = creds['typ']
+name = creds['name']
 
 hashpass = base64.b64encode(hashlib.sha512(salt+ikod+typ+pwd).digest())
 
 now = datetime.datetime.today().strftime('%Y%m%d')
 
-rawtoken = '*login*050123agds*pwd*' + hashpass + '*sgn*ANDR' + now
+rawtoken = '*login*' + name + '*pwd*' + hashpass + '*sgn*ANDR' + now
 
 token = base64.b64encode(hashlib.sha512(rawtoken).digest())
 token = token.replace('\\', '_')
