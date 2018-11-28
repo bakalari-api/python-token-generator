@@ -6,11 +6,15 @@ import datetime
 
 import urllib2
 import xml.etree.ElementTree as ET
+import ssl
 
 import sys
 
 def credentials(domain, user):
-    res = urllib2.urlopen('https://' + domain + '/login.aspx?gethx=' + user).read()
+    ctx = ssl.create_default_context();
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    res = urllib2.urlopen('https://' + domain + '/login.aspx?gethx=' + user, context=ctx).read()
     xml = ET.fromstring(res)
     return {
         'res': xml[0].text,
