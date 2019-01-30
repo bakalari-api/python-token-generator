@@ -17,3 +17,17 @@ Python 3:
 ```
 
 Skript vždy vygeneruje token ke dnešnímu datu.
+
+**Skript jde použít i jako modul.**
+
+Python 2:
+```python
+import mktoken
+token = mktoken.generate_token('bakalari.gjp-me.cz', 'jannovak', 'honzovosilnyheslo')
+```
+
+Python 3:
+```python
+import mktoken3
+token = mktoken3.generate_token('bakalari.gjp-me.cz', 'jannovak', 'honzovosilnyheslo')
+```
