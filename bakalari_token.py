@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import base64
 import datetime
 import hashlib
@@ -6,14 +8,21 @@ import urllib.request
 from xml.etree import ElementTree
 
 
+class InvalidUsername(Exception):
+    pass
+
+
 def generate_token(url, user, password):
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     res = urllib.request.urlopen(
-        "https://" + url + "/login.aspx?gethx=" + user, context=ctx
+        "https://{}/login.aspx?gethx={}".format(url, user), context=ctx
     ).read()
     xml = ElementTree.fromstring(res)
+
+    if xml[0].text == "02":
+        raise InvalidUsername("Neplatné uživatelské jméno")
 
     ikod = xml[2].text
     salt = xml[3].text
@@ -37,7 +46,26 @@ def generate_token(url, user, password):
     return token
 
 
-if __name__ == "__main__":
-    import sys
+def cli():
+    import argparse
+    from getpass import getpass
 
-    print(generate_token(sys.argv[1], sys.argv[2], sys.argv[3]))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url", help="URL Bakalářů (např. subdomena.skola.cz/bakalari)")
+    parser.add_argument("username", help="Uživatelské jméno")
+    parser.add_argument(
+        "pwd",
+        help="Heslo (volitelné, pokud nezadáno, bude vyžádáno schovaným vstupem)",
+        nargs="?",
+        default=argparse.SUPPRESS,
+    )
+    args = parser.parse_args()
+    if "pwd" in args:
+        pwd = args.pwd
+    else:
+        pwd = getpass("Heslo: ")
+    print(generate_token(args.url, args.username, pwd))
+
+
+if __name__ == "__main__":
+    cli()
