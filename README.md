@@ -6,12 +6,10 @@ Doporučuji: [xmlcurl](https://github.com/mariansam/scripts/tree/master/xmlcurl)
 ## Návod
 Script chce tři argumenty - doménu serveru Bakalářů, uživatelské jméno, heslo. Příklad:
 
-Python 2:
-```sh
-./mktoken.py bakalari.gjp-me.cz jannovak honzovosilnyheslo
-```
+### Python 2
+Not supported anymore, if you're really that **boomer**, checkout commit [`c555ec`](../../tree/c555ec15e7a767ebd55c9a3022a07d4633977fcd).
 
-Python 3:
+### Python 3
 ```sh
 ./mktoken3.py bakalari.gjp-me.cz jannovak honzovosilnyheslo
 ```
