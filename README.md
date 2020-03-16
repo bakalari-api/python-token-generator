@@ -4,25 +4,29 @@ Jednoduchý Python script pro vygenerování tokenu pro Bakaláři API.
 Doporučuji: [xmlcurl](https://github.com/mariansam/scripts/tree/master/xmlcurl)
 
 ## Návod
-Script chce tři argumenty - doménu serveru Bakalářů, uživatelské jméno, heslo. Příklad:
+Skript vyžaduje tři argumenty - adresu serveru Bakalářů, uživatelské jméno, heslo.
+
+Adresu uvádějte bez `https://` a bez `/login.aspx`.  
+_Příklad_: Pokud na se na vaše Bakaláře přihlašujete na stránce
+`https://subdomena.skola.cz/bakalari/login.aspx`,
+tak jako adresu uveďte `subdomena.skola.cz/bakalari`.
+
+Vygenerovaný token je platný vždy pouze k danému datu
 
 ### Python 2
 Not supported anymore, if you're really that **boomer**, checkout commit [`c555ec`](../../tree/c555ec15e7a767ebd55c9a3022a07d4633977fcd).
 
 ### Python 3
+
+#### Použití skriptu přímo
 ```sh
-./mktoken3.py bakalari.gjp-me.cz jannovak honzovosilnyheslo
+git clone https://github.com/bakalari-api/python-token-generator.git
+cd python-token-generator
+./bakalari_token.py subdomena.skola.cz/bakalari jannovak honzovosilnyheslo
 ```
 
-Skript vždy vygeneruje token ke dnešnímu datu.
-
-**Skript jde použít i jako modul.**
-
-Python 2:
-ne
-
-Python 3:
+#### Použití jako modul
 ```python
-import mktoken3
-token = mktoken3.generate_token('bakalari.gjp-me.cz', 'jannovak', 'honzovosilnyheslo')
+import bakalari_token
+token = bakalari_token.generate_token("subdomena.skola.cz/bakalari", "jannovak", "honzovosilnyheslo")
 ```
