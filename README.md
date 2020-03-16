@@ -16,7 +16,7 @@ Vygenerovaný token je platný vždy pouze k danému datu
 
 ### Python 2
 Not supported anymore, if you're really that **boomer**, checkout commit
-[`c555ec`](../../tree/c555ec15e7a767ebd55c9a3022a07d4633977fcd).
+[`c555ec1`](https://github.com/bakalari-api/python-token-generator/tree/c555ec15e7a767ebd55c9a3022a07d4633977fcd).
 
 ### Python 3
 
