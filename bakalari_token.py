@@ -5,6 +5,7 @@ import datetime
 import hashlib
 import re
 import ssl
+import sys
 import urllib.request
 from urllib.parse import urlencode, urlparse
 
@@ -14,7 +15,9 @@ class InvalidUsername(Exception):
 
 
 class InvalidResponse(Exception):
-    pass
+    def __init__(self, *args, accessed_url, **kwargs):
+        self.accessed_url = accessed_url
+        super(InvalidResponse, self).__init__(*args, **kwargs)
 
 
 def generate_token(url, username, password):
@@ -51,7 +54,8 @@ def generate_token(url, username, password):
     )
     if match is None:
         raise InvalidResponse(
-            "Neočekávaná odpověd serveru. Toto je obvykle způsobeno špatným URL."
+            "Neočekávaná odpověd serveru. Toto je obvykle způsobeno špatným URL.",
+            accessed_url=url,
         )
     elif match.group("res") == "2":
         raise InvalidUsername("Neplatné uživatelské jméno")
@@ -132,7 +136,16 @@ def cli():
         pwd = args.pwd
     else:
         pwd = getpass("Heslo: ")
-    print(generate_token(url, args.username, pwd))
+
+    try:
+        print(generate_token(url, args.username, pwd))
+    except InvalidUsername as e:
+        print(e, file=sys.stderr)
+        sys.exit(1)
+    except InvalidResponse as e:
+        print("Accessed url:", e.accessed_url, file=sys.stderr)
+        print(e, file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
