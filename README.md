@@ -6,11 +6,14 @@ Doporučuji: [xmlcurl](https://github.com/mariansam/scripts/tree/master/xmlcurl)
 ## Návod
 Skript vyžaduje tři argumenty - adresu serveru Bakalářů, uživatelské jméno, heslo.
 
-Adresu uvádějte bez `https://` a bez `/login.aspx`, případně i bez `/next/`,
-pokud vaše škola tuto verzi rozhraní Bakalářů používá.  
-_Příklad_: Pokud na se na vaše Bakaláře přihlašujete na stránce
-`https://subdomena.skola.cz/bakalari/next/login.aspx`,
-tak jako adresu uveďte `subdomena.skola.cz/bakalari`.
+Pokud použijete argument `-k/--keep-url`, adresa by měla vypadat zhruba takto:  
+`https://subdomena.skola.cz/bakalari/login.aspx`
+
+Tedy včetně protokolu (`https://`) a `/login.aspx`, ale bez `/next/` (pokud vaše škola
+používá tuto verzi rozhraní) a bez query stringu (`?neco=neco...`).
+
+Pokud `-k` použijete, skript se pokusí adresu upravit. Nejkratší formát, který
+vygeneruje stejnou adresu jako výše, je `subdomena.skola.cz/bakalari`.
 
 Vygenerovaný token je platný vždy pouze k danému datu
 
