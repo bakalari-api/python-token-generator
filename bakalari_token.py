@@ -88,7 +88,7 @@ def process_url(url):
     # this magic excludes /login.aspx or /next/*.aspx
     match = re.search(r"^(.*?)(?:(?:/next/[a-z]+\.aspx)|(?:/login.aspx))$", path)
     if match is not None:
-        path = match.group(0)
+        path = match.group(1)
 
     return "https://" + p.netloc + path + "/login.aspx"
 
