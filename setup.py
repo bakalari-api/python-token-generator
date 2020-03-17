@@ -5,7 +5,7 @@ with open("README.md", "rt", encoding="utf8") as f:
 
 setup(
     name="bakalari-token",
-    version="2.0",
+    version="2.0.post1",
     url="https://github.com/bakalari-api/python-token-generator",
     project_urls={
         "Documentation": "https://github.com/bakalari-api/python-token-generator/blob/master/README.md#návod",
