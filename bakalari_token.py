@@ -7,10 +7,13 @@ import re
 import ssl
 import urllib.request
 from urllib.parse import urlencode, urlparse
-from xml.etree import ElementTree
 
 
 class InvalidUsername(Exception):
+    pass
+
+
+class InvalidResponse(Exception):
     pass
 
 
@@ -35,20 +38,27 @@ def generate_token(url, username, password):
 
     :raises InvalidUsername: if the server indicates it doesn't recognize the username
     """
+
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     res = urllib.request.urlopen(
         url + "?" + urlencode({"gethx": username}), context=ctx
     ).read()
-    xml = ElementTree.fromstring(res)
-
-    if xml[0].text == "02":
+    match = re.match(
+        pattern=r'<\?xml version="1.0" encoding="UTF-8"\?><results><res>0(?P<res>[12])</res>(?:<typ>(?P<typ>.+)</typ><ikod>(?P<ikod>.+)</ikod><salt>(?P<salt>.+)</salt><pheslo></pheslo>)?</results>',
+        string=res.decode("utf-8"),
+    )
+    if match is None:
+        raise InvalidResponse(
+            "Neočekávaná odpověd serveru. Toto je obvykle způsobeno špatným URL."
+        )
+    elif match.group("res") == "2":
         raise InvalidUsername("Neplatné uživatelské jméno")
 
-    ikod = xml[2].text
-    salt = xml[3].text
-    typ = xml[1].text
+    ikod = match.group("ikod")
+    salt = match.group("salt")
+    typ = match.group("typ")
 
     hashpass = base64.b64encode(
         hashlib.sha512((salt + ikod + typ + password).encode("utf-8")).digest()
