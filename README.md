@@ -23,15 +23,16 @@ Not supported anymore, if you're really that **boomer**, checkout commit
 #### Z příkazového řádku
 
 ```
-použití: bakalari_token.py [-h] url username [pwd]
+použití: bakalari_token.py [-h] [-k] url username [pwd]
 
 poziční argumenty:
-  url         URL Bakalářů (např. subdomena.skola.cz/bakalari)
-  username    Uživatelské jméno
-  pwd         Heslo (volitelné, pokud nezadáno, bude vyžádáno schovaným vstupem)
+  url             URL Bakalářů (např. subdomena.skola.cz/bakalari)
+  username        Uživatelské jméno
+  pwd             Heslo (volitelné, pokud nezadáno, bude vyžádáno schovaným vstupem)
 
 volitelné argumenty:
-  -h, --help  Zobrazí tuto nápovědu a ukončí program
+  -h, --help      Zobrazí tuto nápovědu a ukončí program
+  -k, --keep-url  Nepokoušet se upravit URL. URL by tedy už mělo být něco jako https://subdomena.skola.cz/bakalari/login.aspx
 ```
 
 ##### Použití skriptu přímo
@@ -50,5 +51,7 @@ bakalari-token <argumenty>
 #### Použití jako modul
 ```python
 import bakalari_token
-token = bakalari_token.generate_token("subdomena.skola.cz/bakalari", "jannovak", "honzovosilnyheslo")
+if not is_full_url:
+    url = bakalari_token.process_url(url)
+token = bakalari_token.generate_token(url, "jannovak", "honzovosilnyheslo")
 ```
