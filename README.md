@@ -1,5 +1,5 @@
 # Token generator for Bakalari API
-Jednoduchý Python script pro vygenerování tokenu pro Bakaláři API.
+Jednoduchý Python script pro vygenerování tokenu pro Bakaláři API. (Týká se API v1, proto je repozitář archivován.)
 
 Doporučuji: [xmlcurl](https://github.com/mariansam/scripts/tree/master/xmlcurl)
 
